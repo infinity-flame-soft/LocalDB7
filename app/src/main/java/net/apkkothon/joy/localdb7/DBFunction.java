@@ -80,6 +80,37 @@ public class DBFunction  extends SQLiteOpenHelper{
 
     }
 
+    public String fetch_name(int pos){
+
+        SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
+
+        String q="SELECT "+TAB_NAME+" FROM "+TABLE_NAME+" WHERE "+TAB_ID+" = "+pos;
+
+        Cursor cursor=sqLiteDatabase.rawQuery(q,null);
+
+        String name="";
+
+        cursor.moveToFirst();
+        if (cursor.moveToFirst()){
+
+            name=cursor.getString(cursor.getColumnIndex(TAB_NAME));
+
+        }
+        return name;
+    }
+
+    public int name_update(String name,int pos){
+
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+
+        ContentValues cv=new ContentValues();
+
+        cv.put(TAB_NAME,name);
+
+        return sqLiteDatabase.update(TABLE_NAME,cv,TAB_ID+" = ? ",new String[]{pos+""});
+
+    }
+
 
 
 
